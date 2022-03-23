@@ -1,0 +1,41 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp18
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] userArray = new string[15];
+            Shuffle(ref userArray);
+        }
+
+        static string Shuffle(ref string[] userArray)
+        {
+            Random rand= new Random();
+            string[] newUserArray = new string[userArray.Length];
+            bool[] elementOpen = new bool[userArray.Length];
+            for (int i = 0; i < userArray.Length; i++)
+            {
+                elementOpen[i] = true;
+            }
+            for (int i = 0; i < userArray.Length; i++)
+            {
+                int newRand = rand.Next(0, userArray.Length);
+                while (elementOpen[newRand] == false)
+                {
+                    newRand = rand.Next(0, userArray.Length);
+                }
+                elementOpen[newRand] = false;
+                newUserArray[newRand] = userArray[i];
+            }
+            userArray = newUserArray;
+            return (userArray);
+        }
+    }
+}
+
