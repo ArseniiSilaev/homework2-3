@@ -1,0 +1,36 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp13
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int tryCount = 3;
+            string secretMessage = "Hello, World!\n";
+            string password = "qwerty123";
+            string falseInput = "Неправильный пароль, у вас осталось ";
+            while (tryCount-- > 0)
+            {
+                Console.Write("Введите пароль: ");
+                string tryPass = Console.ReadLine();
+                if (tryPass == password)
+                {
+                    Console.Clear();
+                    Console.WriteLine(secretMessage);
+                    break;
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine(falseInput + tryCount + " попыток.");
+                }
+            }
+        }
+    }
+}
+
