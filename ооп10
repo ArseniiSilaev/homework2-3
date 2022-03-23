@@ -1,0 +1,89 @@
+using System;
+using System.Collections.Generic;
+
+namespace ConsoleApp37
+{
+internal class Program
+{
+static void Main(string[] args)
+{
+Random rand = new Random();
+TeamOfSoldiers team = new TeamOfSoldiers(rand);
+team.Battle(rand);
+}
+}
+class TeamOfSoldiers
+{
+private List<Soldier> soldiers1 = new List<Soldier>();
+private List<Soldier> soldiers2 = new List<Soldier>();
+public TeamOfSoldiers(Random rand)
+{
+for (int i = 0; i < rand.Next(50, 150); i++)
+{
+soldiers1.Add(new Soldier(rand));
+}
+Console.WriteLine($"В первом взводе - {soldiers1.Count} солдат.");
+for (int i = 0; i < rand.Next(50, 150); i++)
+{
+soldiers2.Add(new Soldier(rand));
+}
+Console.WriteLine($"Во втором взводе - {soldiers2.Count} солдат.");
+}
+public void Battle(Random rand)
+{
+while (soldiers1.Count > 0 && soldiers2.Count > 0)
+{
+for (int i = 0; i < soldiers1.Count; i++)
+{
+if (soldiers1.Count > 0 && soldiers2.Count > 0)
+{
+int randomSoldierNumber = rand.Next(0, soldiers2.Count - 1);
+soldiers2[randomSoldierNumber].TakeDamage(soldiers1[i]);
+if (soldiers2[randomSoldierNumber].Health() <= 0)
+{
+soldiers2.RemoveAt(randomSoldierNumber);
+}
+}
+}
+for (int i = 0; i < soldiers2.Count; i++)
+{
+if (soldiers1.Count > 0 && soldiers2.Count > 0)
+{
+int randomSoldierNumber = rand.Next(0, soldiers1.Count - 1);
+soldiers1[randomSoldierNumber].TakeDamage(soldiers2[i]);
+if (soldiers1[randomSoldierNumber].Health() <= 0)
+{
+soldiers1.RemoveAt(randomSoldierNumber);
+}
+}
+}
+}
+if (soldiers1.Count == 0)
+{
+Console.WriteLine($"Победил второй взвод, в живых осталось {soldiers2.Count} солдат");
+}
+else if (soldiers2.Count == 0)
+{
+Console.WriteLine($"Победил первый взвод, в живых осталось {soldiers1.Count} солдат");
+}
+}
+}
+class Soldier
+{
+private int _health, _armor, _damage;
+public Soldier(Random rand)
+{
+_health = rand.Next(500, 1000);
+_armor = rand.Next(0, 20);
+_damage = rand.Next(50, 100);
+}
+public void TakeDamage(Soldier soldier)
+{
+_health -= soldier._damage * (100 - _armor) / 100;
+}
+public int Health()
+{
+return _health;
+}
+}
+}
