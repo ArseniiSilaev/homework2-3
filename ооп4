@@ -1,0 +1,93 @@
+using System;
+using System.Collections.Generic;
+
+namespace ConsoleApp48
+{
+internal class Program
+{
+static void Main(string[] args)
+{
+Deck a = new Deck();
+a.Game();
+}
+}
+class Deck
+{
+private Player _player = new Player();
+private DeckOfCard _deckOfCard = new DeckOfCard();
+public void Game()
+{
+Console.WriteLine("Нажмите пробел, чтобы взять карту\n");
+while (_player.GetIsNotFull())
+{
+if(Console.ReadKey().Key == ConsoleKey.Spacebar)
+_player.AddCards(_deckOfCard);
+}
+}
+}
+
+class DeckOfCard
+{
+List<string> names = new List<string> { "6", "7", "8", "9", "10", "Валет", "Дама", "Король", "Туз" };
+List<string> suits = new List<string> { "Буби", "Черви", "Пики", "Крести" };
+List<Card> cards = new List<Card>();
+Random rand = new Random();
+
+public DeckOfCard()
+{
+for (int i = 0; i < names.Count; i++)
+{
+for (int j = 0; j < suits.Count; j++)
+{
+cards.Add(new Card(names[i], suits[j]));
+}
+}
+}
+
+public Card PickCard()
+{
+int i = rand.Next(0, cards.Count);
+Card card = cards[i];
+cards.RemoveAt(i);
+return card;
+}
+}
+class Card
+{
+private string _name;
+private string _suit;
+public Card(string name, string suit)
+{
+_name = name;
+_suit = suit;
+}
+
+public override string ToString()
+{
+return _name + " " + _suit;
+}
+}
+class Player
+{
+private List<Card> _playersDeck = new List<Card>();
+private bool _isNotFull = true;
+public void AddCards(DeckOfCard deckOfCard)
+{
+if (_playersDeck.Count < 12)
+{
+Card card = deckOfCard.PickCard();
+_playersDeck.Add(card);
+Console.WriteLine(card);
+}
+else
+{
+Console.WriteLine("Максимальное кол-во карт");
+_isNotFull = false;
+}
+}
+public bool GetIsNotFull()
+{
+return _isNotFull;
+}
+}
+}
