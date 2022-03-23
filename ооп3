@@ -1,0 +1,121 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp28
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            PlayersClub playersClub1 = new PlayersClub();
+            OutputMenu(playersClub1);
+        }
+        static void OutputMenu(PlayersClub a)
+        {
+            bool isWorks = true;
+            while (isWorks == true)
+            {
+                Console.WriteLine("Введите номер запроса: \n1. Добавить игрока\n2. Забанить игрока\n3. Разбанить игрока\n4. Удалить игрока\n5. Показать клуб игроков\n6. Выход");
+                Console.SetCursorPosition(23, 0);
+                string userInput = Console.ReadLine();
+                Console.Clear();
+                switch (userInput)
+                {
+                    case "1":
+                        Console.Write("Введите ник игрока: ");
+                        string userName = Console.ReadLine();
+                        Console.Write("Введите уровень игрока: ");
+                        int userLevel = Convert.ToInt32(Console.ReadLine());
+                        a.AddPlayer(new Player(userLevel, userName));
+                        Console.Clear();
+                        break;
+                    case "2":
+                        Console.Write("Введите номер игрока, которого нужно забанить: ");
+                        a.GetPlayer(Convert.ToInt32(Console.ReadLine())).Ban();
+                        Console.Clear();
+                        break;
+                    case "3":
+                        Console.Write("Введите номер игрока, которого нужно разбанить: ");
+                        a.GetPlayer(Convert.ToInt32(Console.ReadLine())).Unban();
+                        Console.Clear();
+                        break;
+                    case "4":
+                        Console.Write("Введите номер игрока, которого нужно удалить: ");
+                        a.GetList().RemoveAt(Convert.ToInt32(Console.ReadLine()));
+                        Console.Clear();
+                        break;
+                    case "5":
+                        a.OutputPlayersClub();
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "6":
+                        isWorks = false;                        
+                        break;
+                    default:
+                        Console.WriteLine("Некорректный запрос!");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                }
+            }
+        }
+    }
+    class PlayersClub 
+    {
+        private List<Player> _players = new List<Player>();
+        public void AddPlayer(Player userPlayer)
+        {
+            _players.Add(userPlayer);
+        }
+        public void OutputPlayersClub()
+        {
+            for (int i = 0; i < _players.Count; i++)
+            {
+                Console.WriteLine(i + " - " + _players[i].GetPlayer());
+            }
+        }
+        public Player GetPlayer(int index)
+        {
+            return _players[index];
+        }
+        public List<Player> GetList()
+        {
+            return _players;
+        }
+
+    }
+    class Player
+    {
+        int _level;
+        string _name;
+        bool _isBan;
+        public Player(int level, string name, bool isBan = false)
+        {
+            _level = level;
+            _name = name;
+            _isBan = isBan;
+        }
+        public void Ban()
+        {
+            this._isBan = true;
+        }
+        public void Unban()
+        {
+            this._isBan = false;
+        }
+        public string GetPlayer()
+        {
+            string infoPlayer = _name + " " + _level;
+            if (_isBan)
+            {
+                infoPlayer += " ЗАБАНЕН!";
+            }
+            return infoPlayer;
+        }
+    }
+}
+
