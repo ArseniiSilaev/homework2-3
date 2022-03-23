@@ -1,0 +1,112 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp12
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int userNumber;
+            string menu = "Добро пожаловать в меню, пользователь!\nНапишите 1, если хотите изменить приветствие\nНапишите 2, если хотите изменить цвет меню\nНапишите 3, если хотите изменить язык\nНапишите 4, если хотите поменять цвет фона\nНапишите 5, если хотите выйти из приложения\n";
+            while (true)
+            {
+                Console.WriteLine(menu);
+                userNumber = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                if (userNumber == 1)
+                {   
+                    if (menu[0] == 'Д')
+                    {
+                        Console.Write("Введите Ваше имя: ");
+                        string name = Console.ReadLine();
+                        menu = ("Добро пожаловать в меню, " + name + "!\nНапишите 1, если хотите изменить приветствие\nНапишите 2, если хотите изменить цвет меню\nНапишите 3, если хотите изменить язык\nНапишите 4, если хотите поменять цвет фона\nНапишите 5, если хотите выйти из приложения\n");
+                    }      
+                    else if (menu[0] == 'W')
+                    {
+                        Console.Write("Enter your name: ");
+                        string name = Console.ReadLine();
+                        menu = "Welcome to the menu, " + name + "!\nWrite 1 if you want to change the greeting\nWrite 2 if you want to change the color of the menu\nWrite 3 if you want to change the language\nWrite 4 if you want to change the background color\nWrite 5 if you want to exit the application\n";
+                    }
+                }
+                if (userNumber == 2)
+                {
+                    if (menu[0] == 'Д')
+                    {
+                        Console.WriteLine("Напишите 1, если хотите белый цвет\nНапишите 2, если хотите красный цвет\nНапишите 3 если, хотите синий цвет\nНапишите 4, если хотите желтый цвет\nНапишите 5 если хотите розовый цвет\n");
+                    }
+                    if (menu[0] == 'W')
+                    {
+                        Console.WriteLine("Write 1 if you want white\nWrite 2 if you want red\nWrite 3 if you want blue\nWrite 4 if you want yellow\nWrite 5 if you want pink\n");
+                    }
+                    int userNumberColor = Convert.ToInt32(Console.ReadLine());
+                    if (userNumberColor == 1)
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    if (userNumberColor == 2)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    }
+                    if (userNumberColor == 3)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                    }
+                    if (userNumberColor == 4)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                    }
+                    if (userNumberColor == 5)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                    }
+                }
+                if (userNumber == 3)
+                {
+                    menu = "Welcome to the menu, user!\nWrite 1 if you want to change the greeting\nWrite 2 if you want to change the color of the menu\nWrite 3 if you want to change the language\nWrite 4 if you want to change the background color\nWrite 5 if you want to exit the application\n";
+                }
+                if (userNumber == 4)
+                {
+                    if (menu[0] == 'Д')
+                    {
+                        Console.WriteLine("Напишите 1, если хотите белый цвет\nНапишите 2, если хотите красный цвет\nНапишите 3 если, хотите синий цвет\nНапишите 4, если хотите желтый цвет\nНапишите 5 если хотите зелёный цвет\n");
+                    }
+                    if (menu[0] == 'W')
+                    {
+                        Console.WriteLine("Write 1 if you want white\nWrite 2 if you want red\nWrite 3 if you want blue\nWrite 4 if you want yellow\nWrite 5 if you want green\n");
+                    }
+                    int backgroundColor = Convert.ToInt32(Console.ReadLine());
+                    if (backgroundColor == 1)
+                    {
+                        Console.BackgroundColor = ConsoleColor.White;
+                    }
+                    if (backgroundColor == 2)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Red;
+                    }
+                    if (backgroundColor == 3)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Blue;
+                    }
+                    if (backgroundColor == 4)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Yellow;
+                    }
+                    if (backgroundColor == 5)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Green;
+                    }
+                }
+                if (userNumber == 5)
+                {
+                    break;
+                }
+                Console.Clear();
+            }
+        }
+    }
+}
+
