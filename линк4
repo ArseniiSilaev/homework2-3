@@ -1,0 +1,71 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp49
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            DataBasePlayers dataBasePlayers = new DataBasePlayers();
+            Menu(dataBasePlayers);
+        }
+        public static void Menu(DataBasePlayers dataBasePlayers)
+        {
+            Console.WriteLine("Топ игроков по силе: ");
+            dataBasePlayers.PowerTop();
+            Console.WriteLine("\nТоп игроков по уровню: ");
+            dataBasePlayers.LevelTop();
+        }
+    }
+    class DataBasePlayers
+    {
+        List<Player> dataBasePlayers = new List<Player>() { new Player("Попс-попс", 3, 69), new Player("морж", 6, 51), new Player("вася читер", 4, 14),
+                                                       new Player("Нагибатор3000", 1, 38), new Player("фиксик", 5, 52), new Player("Killer3319", 6, 19),
+                                                       new Player("Сергей", 2, 47), new Player("Морфиус", 9, 29), new Player("pacman", 7, 15),
+                                                       new Player("God_of_War_2002", 10, 76), new Player("СвятойИзБундока", 7, 30), new Player("Сясь", 8, 73)};
+        public void LevelTop()
+        {
+            var FiltredPlayers = dataBasePlayers.OrderByDescending(player => player.Level()).Take(3);
+            foreach (var player in FiltredPlayers)
+            {
+                Console.WriteLine(player.ShowInfo());
+            }
+        }
+        public void PowerTop()
+        {
+            var FiltredPlayers = dataBasePlayers.OrderByDescending(player => player.Power()).Take(3);
+            foreach (var player in FiltredPlayers)
+            {
+                Console.WriteLine(player.ShowInfo());
+            }
+        }
+    }
+    class Player
+    {
+        private int _level, _power;
+        private string _name;
+        public Player(string name, int level, int power)
+        {
+            _name = name;
+            _level = level;
+            _power = power;
+        }
+        public int Level()
+        {
+            return _level;
+        }
+        public int Power()
+        {
+            return _power;
+        }
+        public string ShowInfo()
+        {
+            return _name + ". Уровень: " + _level + "; Сила: " + _power;
+        }
+    }
+}
+
