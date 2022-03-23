@@ -1,0 +1,33 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp27
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, string> engToRus = new Dictionary<string, string>();
+            engToRus.Add("white", "белый"); engToRus.Add("gray", "серый");
+            engToRus.Add("black", "черный"); engToRus.Add("green", "зеленый");
+            engToRus.Add("red", "красный"); engToRus.Add("blue", "синий");
+            engToRus.Add("yellow", "желтый"); engToRus.Add("pink", "розовый");
+            Console.WriteLine("Добро пожаловать, значение какого слова Вы хотите знать?: \n\n(white \ngray \nblack \ngreen \nred \nblue \nyellow \npink)");
+            Console.SetCursorPosition(58, 0);
+            string userInput = Console.ReadLine();
+            Console.SetCursorPosition(0, 11);
+            if (engToRus.ContainsKey(userInput))
+            {
+                Console.WriteLine(userInput + " переводится как "+ engToRus[userInput]);
+            }
+            else
+            {
+                Console.WriteLine("Ошибка! Неизвестное слово!");
+            }
+        }
+    }
+}
+
