@@ -1,0 +1,124 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp38
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Aquarium aquarium = new Aquarium();
+            aquarium.Menu();
+        }
+    }
+    class Fish
+    {
+        private int _age, _maxAge; private string _typeOfFish;
+        Random rand = new Random();
+        public Fish(string typeOfFish)
+        {
+            _typeOfFish = typeOfFish;
+            _age = 0;
+            _maxAge = rand.Next(5, 30);
+        }
+        public int AgingFish()
+        {
+            _age ++;
+            return _age;
+        }
+        public int GetAge()
+        {
+            return _age;
+        }
+        public int GetMaxAge()
+        {
+            return _maxAge;
+        }
+        public void ShowInfo()
+        {
+            Console.WriteLine($"Тип - {_typeOfFish}, возраст - {_age}");
+        }
+    }
+    class Aquarium
+    {
+        List<Fish> _aquarium = new List<Fish>();
+        private int _maxFishes = 50, _countFishes = 0;
+        public void AddFish(string typeOfFish)
+        {
+            if (_countFishes < _maxFishes)
+            {
+                _aquarium.Add(new Fish(typeOfFish));
+                _countFishes++;
+            }
+            else
+            {
+                Console.WriteLine("Аквариум переполнен!");
+            }
+        }
+        public void RemoveFish(int userInput)
+        {
+            _aquarium.RemoveAt(userInput);
+            _countFishes--;
+        }
+        public void AgingFishes()
+        {
+            for (int i = 0; i < _aquarium.Count; i++)
+            {
+                _aquarium[i].AgingFish();
+                if (_aquarium[i].GetAge() > _aquarium[i].GetMaxAge())
+                {
+                    _aquarium.RemoveAt(i);
+                    _countFishes--;
+                }
+            }
+        }
+        public void Menu()
+        {
+            bool isWork = true;
+            while (isWork)
+            {
+                AgingFishes();
+                Console.WriteLine("Программа Аквариум\n\nВыберите действие:\n1. Посмотреть рыб\n2. Добавить рыбу\n3. Достать рыбу\n4. Выйти из программы");
+                Console.SetCursorPosition(19, 2);
+                string userInput = Console.ReadLine();
+                Console.Clear();
+                switch (userInput)
+                {
+                    case "1":
+                        for (int i = 0; i < _aquarium.Count; i++)
+                        {
+                            Console.Write(i + " ");
+                            _aquarium[i].ShowInfo();
+                        }
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "2":
+                        Console.WriteLine("Введите вид рыбы: ");
+                        AddFish(Console.ReadLine());
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "3":
+                        Console.WriteLine("Введите номер рыбы, которую хотите достать: ");
+                        RemoveFish(Convert.ToInt32(Console.ReadLine()));
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "4":
+                        isWork = false;
+                        break;
+                    default: 
+                        Console.WriteLine("Ошибка!");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                }
+            }
+        }
+    }
+}
+
