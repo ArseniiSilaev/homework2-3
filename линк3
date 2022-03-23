@@ -1,0 +1,115 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp49
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Hospital hospital = new Hospital();
+            Menu(hospital);
+        }
+        public static void Menu(Hospital hospital)
+        {
+            bool isWorked = true;
+            while (isWorked)
+            {
+                Console.WriteLine("Выберите действие: \n1. Отсортировать список больных по ФИО\n2. Отсортировать список больных по возрасту\n3. Вывести больных с определённым заболеванием\n4. Выход");
+                Console.SetCursorPosition(19, 0);
+                string userInput = Console.ReadLine();
+                Console.Clear();
+                switch (userInput)
+                {
+                    case "1":
+                        hospital.NameSorting();
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "2":
+                        hospital.AgeSorting();
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "3":
+                        Console.Write("Введите заболевание: ");
+                        hospital.SearchDisease(Console.ReadLine());
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "4":
+                        isWorked = false;
+                        Console.Clear();
+                        break;
+                    default:
+                        Console.WriteLine("Ошибка!");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                }
+            }
+        }
+    }
+    class Hospital
+    {
+        List<Patient> hospital = new List<Patient>() { new Patient("Петров Иван", "СПИД", 69), new Patient("Сидоров Михаил", "Пневмония", 51), new Patient("Васильев Евгений", "Ковид-19", 14),
+                                                       new Patient("Смирнова Елева", "Бронхит", 38), new Patient("Яковлев Денис", "СПИД", 52), new Patient("Степанова Мария", "Пневмония", 19),
+                                                       new Patient("Соколов Сергей", "Ковид-19", 47), new Patient("Иванов Пётр", "Бронхит", 29), new Patient("Кузнецова Екатерина", "Ковид-19", 15),
+                                                       new Patient("Фёдоров Максим", "Пневмония", 76), new Patient("Попова Дарья", "СПИД", 30), new Patient("Андреев Александр", "Ковид-19", 73)};
+        public void NameSorting()
+        {
+            var filtredHospital = hospital.OrderBy(patient => patient.Name());
+            foreach (var patient in filtredHospital)
+            {
+                Console.WriteLine(patient.ShowInfo());
+            }
+        }
+        public void AgeSorting()
+        {
+            var filtredHospital = hospital.OrderBy(patient => patient.Age());
+            foreach (var patient in filtredHospital)
+            {
+                Console.WriteLine(patient.ShowInfo());
+            }
+        }
+        public void SearchDisease(string disease)
+        {
+            var filtredHospital = hospital.Where(patient => patient.Disease() == disease);
+            foreach (var patient in filtredHospital)
+            {
+                Console.WriteLine(patient.ShowInfo());
+            }
+        }
+    }
+    class Patient
+    {
+        private string _name, _disease;
+        private int _age;
+        public Patient(string name, string disease, int age)
+        {
+            _age = age;
+            _name = name;
+            _disease = disease;
+        }
+        public string Name()
+        {
+            return _name;
+        }
+        public int Age()
+        {
+            return _age;
+        }
+        public string Disease()
+        {
+            return _disease;
+        }
+        public string ShowInfo()
+        {
+            return _name + " " + _disease + " " + _age;
+        }
+    }
+}
+
