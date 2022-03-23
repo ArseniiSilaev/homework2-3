@@ -1,0 +1,56 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp49
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            StewBase stewBase = new StewBase(2022);
+            stewBase.ExpiredProducts();
+        }
+    }
+    class StewBase
+    {
+        private int _currentYear;
+        List<Stew> stewBase = new List<Stew>() { new Stew("Тушенка Смоленская", 2020, 3), new Stew("Простой выбор!", 2017, 5), new Stew("Тушенка Высший Сорт", 2017, 3), new Stew("Столетовский мясной двор", 2022, 2), new Stew("Усольский мясокомбинат", 2019, 4), new Stew("Первым делом", 2018, 5), new Stew("Три поросёнка", 2017, 2), new Stew("ГЛАВпродукт", 2021, 1) };
+        public StewBase(int currentYear)
+        {
+            _currentYear = currentYear;
+        }
+        public void ExpiredProducts()
+        {
+            var FiltredStew = stewBase.Where(stew => stew.ExpirationDate() < _currentYear);
+            foreach (var stew in FiltredStew)
+            {
+                Console.WriteLine(stew.Name());
+            }
+        }
+    }
+
+    class Stew
+    {
+        private int _yearOfProduction;
+        private int _shelfLife;
+        private string _name;
+        public Stew(string name, int yearOfProduction, int shelfLife)
+        {
+            _name = name;
+            _shelfLife = shelfLife;
+            _yearOfProduction = yearOfProduction;
+        }
+        public string Name()
+        {
+            return _name;
+        }
+        public int ExpirationDate()
+        {
+            return _yearOfProduction + _shelfLife;
+        }
+    }
+}
+
