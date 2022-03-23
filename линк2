@@ -1,0 +1,67 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp48
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            DataBase dataBase = new DataBase();
+            Console.WriteLine("До амнистии: ");
+            dataBase.ShowCriminals();
+            Console.WriteLine("\nПосле амнистии: ");
+            dataBase.ShowCriminalsAfterAmnesty();
+        }
+    }
+    class DataBase
+    {
+        List<Criminal> criminals = new List<Criminal>() { new Criminal("Зубенко Михаил Петрович", "Антиправительственное"),
+                                                          new Criminal("Криминалов Пётр Николаевич", "Убийство"),
+                                                          new Criminal("Воров Сергей Михайлович", "Грабёж"),
+                                                          new Criminal("Головорезов Руслан Рустамович", "Антиправительственное"),
+                                                          new Criminal("Лысых Евгений Владимирович", "Антиправительственное"),
+                                                          new Criminal("Северный Григорий Александрович", "Антиправительственное"),
+                                                          new Criminal("Кулаков Артём Евгеньевич", "Наркотики"),
+                                                          new Criminal("Тюремный Денис Прокопьевич", "Грабёж"),
+                                                          new Criminal("Киллер Джон", "Угон"),
+                                                          new Criminal("Трапаидзе Гога Кобаевич", "Разбой")};
+        public void ShowCriminals()
+        {
+            foreach (var criminal in criminals)
+            {
+                Console.WriteLine(criminal.ShowInfo());
+            }
+        }
+        public void ShowCriminalsAfterAmnesty()
+        {
+            var FiltredCriminals = criminals.Where(criminal => criminal.Crime() != "Антиправительственное");
+            foreach (var criminal in FiltredCriminals)
+            {
+                Console.WriteLine(criminal.ShowInfo());
+            }
+        }
+    }
+
+    class Criminal
+    {
+        private string _name, _crime;
+        public Criminal(string name, string crime)
+        {
+            _name = name;
+            _crime = crime;
+        }
+        public string Crime()
+        {
+            return _crime;
+        }
+        public string ShowInfo()
+        {
+            return _name + " " + _crime;
+        }
+    }
+}
+
