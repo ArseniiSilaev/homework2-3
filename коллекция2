@@ -1,0 +1,31 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp27
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int sum = 0;
+            Queue<int> shopQueue = new Queue<int>(); 
+            Random random = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                shopQueue.Enqueue(random.Next(100, 1000));
+            }
+            foreach (var buyer in shopQueue)
+            {
+                sum += buyer;
+                Console.WriteLine("Совершена покупка на " + buyer + " рублей. В кассе - " + sum + " рублей.");
+                Console.ReadKey();
+                Console.Clear();
+            }
+            Console.WriteLine("Очередь закончилась, в кассе " + sum + " рублей.\n");
+        }
+    }
+}
+
