@@ -1,0 +1,85 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp48
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            DataBase dataBase = new DataBase();
+            Console.Write("Введите рост: ");
+            int height = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Введите вес: ");
+            int weight = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Введите национальность: ");
+            string nationality = Console.ReadLine();
+            dataBase.SearchCriminals(height, weight, nationality);
+        }
+    }
+    class DataBase
+    {
+        List<Criminal> criminals = new List<Criminal>() { new Criminal("Зубенко Михаил Петрович", 184, 82, "Русский", true),
+                                                          new Criminal("Криминалов Пётр Николаевич", 169, 85, "Русский", false),
+                                                          new Criminal("Воров Сергей Михайлович", 190, 120, "Молдаванин", false),
+                                                          new Criminal("Головорезов Руслан Рустамович", 174, 82, "Русский", true),
+                                                          new Criminal("Лысых Евгений Владимирович", 176, 80, "Белорус", false),
+                                                          new Criminal("Северный Григорий Александрович", 188, 95, "Украинец", true),
+                                                          new Criminal("Кулаков Артём Евгеньевич", 172, 74, "Русский", true),
+                                                          new Criminal("Тюремный Денис Прокопьевич", 176, 80, "Белорус", false),
+                                                          new Criminal("Киллер Джон", 190, 99, "Американец", true),
+                                                          new Criminal("Трапаидзе Гога Кобаевич", 187, 110, "грузин", true)};
+        public void SearchCriminals(int height, int weight, string nationality)
+        {
+            var FiltredCriminals = criminals.Where(criminal => criminal.Height() == height && criminal.Weight() == weight && criminal.Nationality() == nationality);
+            foreach (var criminal in FiltredCriminals)
+            {
+                Console.WriteLine(criminal.ShowInfo());
+            }
+        }
+    }
+
+    class Criminal
+    {
+        private string _name, _nationality;
+        private bool _concluded;
+        private int _height, _weight;
+        public Criminal(string name, int height, int weight, string nationality, bool concluded)
+        {
+            _name = name;
+            _nationality = nationality;
+            _concluded = concluded;
+            _height = height;
+            _weight = weight;
+        }
+        public int Height()
+        {
+            return _height;
+        }
+        public int Weight()
+        {
+            return _weight;
+        }
+        public string Nationality()
+        {
+            return _nationality;
+        }
+        public string ShowInfo()
+        {
+            string showCriminal;
+            if (_concluded)
+            {
+                showCriminal = ($"{_name} (рост: {_height}, вес: {_weight}, национальность: {_nationality}), заключён.");
+            }
+            else
+            {
+                showCriminal = ($"{_name} (рост: {_height}, вес: {_weight}, национальность: {_nationality}), на свободе.");
+            }
+            return showCriminal;
+        }
+    }
+}
+
