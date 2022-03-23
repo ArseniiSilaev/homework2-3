@@ -1,0 +1,115 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp34
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Random rand = new Random();
+            Supermarket diksi = new Supermarket(rand);
+            diksi.SupermarketQueue();
+        }
+    }
+    class Supermarket
+    {
+        Queue<Buyer> buyerQueue = new Queue<Buyer>(); int _revenue;
+        public Supermarket(Random rand)
+        {
+            for (int i = 0; i < rand.Next(1, 15); i++)
+            {
+                Buyer buyer = new Buyer(rand);
+                buyerQueue.Enqueue(buyer);
+            }
+            _revenue = 0;
+        }
+        public void SupermarketQueue()
+        {
+            while (buyerQueue.Count > 0)
+            {
+                var currentBuyer = buyerQueue.Dequeue();
+                if (currentBuyer.GetMoney() >= currentBuyer.GetFoodBasketPrice())
+                {
+                    _revenue += currentBuyer.GetFoodBasketPrice();
+                }
+                else
+                {
+                    while (currentBuyer.GetMoney() < currentBuyer.GetFoodBasketPrice())
+                    {
+                        currentBuyer.DeleteProduct();
+                    }
+                    _revenue += currentBuyer.GetFoodBasketPrice();
+                }
+                Console.WriteLine($"Клиент совершил покупки на {currentBuyer.GetFoodBasketPrice()} рублей.\n");
+            }
+            Console.WriteLine($"\nВ очереди больше никого нет. Выручка - {_revenue} рублей.");
+        }
+    }
+    class Buyer
+    {
+        int _buyerMoney; FoodBasket foodBasket;
+        public Buyer(Random rand)
+        {
+            _buyerMoney = rand.Next(100, 2000);
+            foodBasket = new FoodBasket(rand);
+        }
+        public int GetMoney()
+        {
+            return _buyerMoney;
+        }
+        public int GetFoodBasketPrice()
+        {
+            return foodBasket.GetFoodBasketPrice();
+        }
+        public Queue<Product> FoodBasket()
+        {
+            return foodBasket.GetFoodBasket();
+        }
+        public void DeleteProduct()
+        {
+            foodBasket.DeleteProduct();
+        }
+    }
+    class FoodBasket
+    {
+        Queue<Product> products = new Queue<Product>();
+        int _foodBasketPrice = 0;
+        public FoodBasket(Random rand)
+        {
+            for (int i = 0; i < rand.Next(1, 20); i++)
+            {
+                Product product = new Product(rand);
+                products.Enqueue(product);
+                _foodBasketPrice += product.GetProductPrice();
+            }
+        }
+        public int GetFoodBasketPrice()
+        {
+            return _foodBasketPrice;
+        }
+        public Queue<Product> GetFoodBasket()
+        {
+            return products;
+        }
+        public void DeleteProduct()
+        {
+            _foodBasketPrice -= products.Dequeue().GetProductPrice();
+        }
+    }
+    class Product
+    {
+        int _productPrice;
+        public Product(Random rand)
+        {
+            _productPrice = rand.Next(10, 500);
+        }
+        public int GetProductPrice()
+        {
+            return _productPrice;
+        }
+    }
+}
