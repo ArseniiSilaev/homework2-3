@@ -1,0 +1,55 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp49
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            SoldiersTeam soldiersTeam = new SoldiersTeam();
+            soldiersTeam.ShowSoldiers();
+        }    
+    }
+    class SoldiersTeam
+    {
+        List<Soldier> soldiersTeam = new List<Soldier>() { new Soldier("Алексей", "Лейтенант", "Автомат", 48), new Soldier("Владимир", "Полковник", "Пистолет", 18), new Soldier("Сергей", "Сержант", "Автомат", 36), new Soldier("Михаил", "Полковник", "Автомат", 60), new Soldier("Денис", "Ефрейтор", "Винтовка", 24)};
+        public void ShowSoldiers()
+        {
+            Console.Write("Введите вооружение: "); string userInput = Console.ReadLine();
+            var filtredSoldiers = soldiersTeam.Where(soldier => soldier.Armament() == userInput);
+            Console.WriteLine("Этим вооружением пользуются:");
+            foreach (Soldier soldier in filtredSoldiers)
+            {
+                Console.WriteLine(soldier.ShowName());
+            }
+        }
+    }
+
+    class Soldier
+    {
+        private string _name;
+        private string _rank;
+        private string _armament;
+        private int _lifeTime;
+        public Soldier(string name, string rank, string armament, int lifeTime)
+        {
+            _name = name;
+            _rank = rank;
+            _armament = armament;
+            _lifeTime = lifeTime;
+        }
+        public string Armament()
+        {
+            return _armament;
+        }
+        public string ShowName()
+        {
+            return _name + " " + _rank;
+        }
+    }
+}
+
