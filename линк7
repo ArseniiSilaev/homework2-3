@@ -1,0 +1,48 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp49
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            SoldierTeam team = new SoldierTeam();
+            team.ChangeSoldier();
+        }    
+    }
+    class SoldierTeam
+    {
+        List<Soldier> team1 = new List<Soldier>() { new Soldier("Макаров"), new Soldier("Блинников"), new Soldier("Насибулин"), new Soldier("Борисов"), new Soldier("Бурейко"), new Soldier("Ананьев") };
+        List<Soldier> team2 = new List<Soldier>() { new Soldier("Сидоренко"), new Soldier("Павлов"), new Soldier("Шац"), new Soldier("Родионов"), new Soldier("Панфилов"), new Soldier("Никитин") };
+        public void ChangeSoldier()
+        {
+            team2 = team2.Union(team1.Where(soldier => soldier.Name().StartsWith("Б"))).ToList<Soldier>();
+            team1.RemoveAll(soldier => soldier.Name().StartsWith("Б"));
+            foreach (var soldier in team1)
+            {
+                Console.WriteLine(soldier.Name());
+            }
+            foreach (var soldier in team2)
+            {
+                Console.WriteLine(soldier.Name());
+            }
+        }
+    }
+    class Soldier
+    {
+        private string _secondName;
+        public Soldier(string secondName)
+        {
+            _secondName = secondName;
+        }
+        public string Name()
+        {
+            return _secondName;
+        }
+    }
+}
+
