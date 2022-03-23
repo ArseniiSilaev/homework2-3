@@ -1,0 +1,93 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp32
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Route route = new Route();
+            route.AddCity("Москва"); route.AddCity("Санкт-Петербург"); route.AddCity("Тверь"); route.AddCity("Владимир"); route.AddCity("Рязань");
+            route.CreateRoute();
+            route.ShowInfo();
+        }
+    }
+    class Train
+    {
+        int _trainCarCount;
+        int _capacityTrainCar = 28;
+        public int CreateTrain(int numberOfPeople)
+        {
+            if (numberOfPeople % _capacityTrainCar == 0)
+            {
+                _trainCarCount = numberOfPeople / _capacityTrainCar;
+            }
+            else
+            {
+                _trainCarCount = numberOfPeople / _capacityTrainCar + 1;
+            }
+            return _trainCarCount;
+        }
+
+    }
+    class Route
+    {
+        List<string> _cities = new List<string>();
+        int _numberOfPeople, _trainCarCount; string _departureCity, _arrivalCity;
+        public void AddCity(string userInput)
+        {
+            _cities.Add(userInput);
+        }
+        public void CreateRoute()
+        {
+            _departureCity = "";
+            _arrivalCity = "";
+            bool isCreated = false;
+            while (isCreated == false)
+            {
+                Console.WriteLine("Введите город отправления: ");
+                string userInput1 = Console.ReadLine();
+                Console.WriteLine("Введите город прибытия: ");
+                string userInput2 = Console.ReadLine();
+                for (int i = 0; i < _cities.Count; i++)
+                {
+                    if (_cities[i] == userInput1 || _cities[i] == userInput2)
+                    {
+                        if (_cities[i] == userInput1)
+                        {
+                            _departureCity = userInput1;
+                        }
+                        else
+                        {
+                            _arrivalCity = userInput2;
+                        }
+                    }
+                }
+                if (_departureCity == "" || _arrivalCity == "")
+                {
+                    Console.WriteLine("\nВы ввели ложные данные!");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                else
+                {
+                    Train train = new Train();
+                    Random rand = new Random();
+                    _numberOfPeople = rand.Next(0, 1000);
+                    _trainCarCount = train.CreateTrain(_numberOfPeople);
+                    Console.WriteLine("Рейс создан.");
+                    isCreated = true;
+                }
+            }
+        }
+        public void ShowInfo()
+        {
+            Console.WriteLine($"Текущий рейс {_departureCity}-{_arrivalCity}, продано {_numberOfPeople} билетов. В составе {_trainCarCount} вагонов.");
+        }
+    }
+}
+
