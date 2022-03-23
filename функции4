@@ -1,0 +1,144 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+
+namespace ConsoleApp25
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int X = 0; int Y = 0; bool play = true; 
+            Console.CursorVisible = false;
+            Console.Write("Укажите полный путь к файлу: ");
+            string mapLocation = Console.ReadLine();
+            string mapLocation = "C:/Users/Senya/OneDrive/Рабочий стол/map1.txt";
+            char[,] map = FunctionMap(mapLocation, ref X, ref Y);
+            Console.Clear();
+            DrawMap(map);
+            while (play == true)
+            {
+                if (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo keyInfo = Console.ReadKey();
+                    ChangePosition(keyInfo, ref X, ref Y, ref map);
+                    Console.Clear();
+                    DrawMap(map);
+                }
+            }
+
+        }
+
+
+
+
+        static char[,] FunctionMap(string mapLocation, ref int X, ref int Y)
+        {
+            bool HeroLocation = false;
+            string[] usersFile = File.ReadAllLines(mapLocation);
+            char[,] map = new char[usersFile.Length, usersFile[0].Length];
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    map[i, j] = usersFile[i][j];
+                }
+            }
+            Random random = new Random();
+            while (HeroLocation == false)
+            {
+                int i = random.Next(0, map.GetLength(0));
+                int j = random.Next(0, map.GetLength(1));
+                if (map[i, j] == ' ')
+                {
+                    map[i, j] = '@';
+                    X = j; Y = i;
+                    HeroLocation = true;
+                }
+            }
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    if (map[i, j] == ' ')
+                    {
+                        map[i, j] = '.';
+                    }
+                }
+            }
+            return map;
+        }
+        static void DrawMap(char[,] map)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    if (map[i, j] == '@')
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write(map[i, j]);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    }
+                    else if (map[i, j] == '.')
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write(map[i, j]);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    }
+                    else
+                    {
+                        Console.Write(map[i, j]);
+                    }
+                }
+                Console.WriteLine();
+            }
+        }
+        static char[,] ChangePosition(ConsoleKeyInfo keyInfo, ref int X, ref int Y, ref char[,] map)
+        {
+            switch (keyInfo.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    if (map[Y - 1, X] != '#')
+                    {
+                        map[Y, X] = ' ';
+                        map[Y - 1, X] = '@';
+                        Y -= 1;
+                    }
+                    break;
+                case ConsoleKey.DownArrow:
+                    if (map[Y + 1, X] != '#')
+                    {
+                        map[Y, X] = ' ';
+                        map[Y + 1, X] = '@';
+                        Y += 1;
+                    }
+                    break;
+                case ConsoleKey.LeftArrow:
+                    if (map[Y, X - 1] != '#')
+                    {
+                        map[Y, X] = ' ';
+                        map[Y, X - 1] = '@';
+                        X -= 1;
+                    }
+                    break;
+                case ConsoleKey.RightArrow:
+                    if (map[Y, X + 1] != '#')
+                    {
+                        map[Y, X] = ' ';
+                        map[Y, X + 1] = '@';
+                        X += 1;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return map;
+        }
+    }
+}
+
