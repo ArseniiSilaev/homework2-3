@@ -1,0 +1,45 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp14
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] userArray = new int[0];
+            int arraySum = 0;
+            while (true)
+            {
+                string userInput = Console.ReadLine();
+                if (userInput == "sum")
+                {
+                        for (int i = 0; i < userArray.Length; i++)
+                        {
+                            arraySum += userArray[i];
+                        }
+                        Console.WriteLine(arraySum);
+                }
+                else if (userInput == "exit")
+                {
+                    break;
+                }
+                else
+                {
+                    int newElement = Convert.ToInt32(userInput);
+                    int[] newUserArray = new int[userArray.Length + 1];
+                    for (int i = 0; i < userArray.Length; i++)
+                    {
+                        newUserArray[i] = userArray[i];
+                    }
+                    newUserArray[newUserArray.Length - 1] = newElement;
+                    userArray = newUserArray;
+                }
+            }
+        }
+    }
+}
+
