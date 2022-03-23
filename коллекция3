@@ -1,0 +1,42 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp27
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int sum = 0;
+            List<int> array = new List<int>();
+            while (true)
+            {
+                string userInput = Console.ReadLine();
+                if (!int.TryParse(userInput, out var a))
+                {
+                    if (userInput == "sum")
+                    {
+                        Console.WriteLine(sum);
+                    }
+                    else if (userInput == "exit")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Неправильный ввод");
+                    }
+                }
+                else
+                {
+                    array.Add(Convert.ToInt32(userInput));
+                    sum += Convert.ToInt32(userInput);
+                }
+            }
+        }
+    }
+}
+
