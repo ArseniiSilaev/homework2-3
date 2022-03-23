@@ -1,0 +1,172 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp46
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Library library = new Library();
+            Menu(library);
+        }
+        public static void Menu(Library library)
+        {
+            bool isWork = true;
+            while (isWork)
+            {
+                Console.WriteLine("Введите запрос: \n1. Добавить книгу\n2. Убрать книгу\n3. Показать все книги\n4. Показать книги по параметру\n5. Выход");
+                Console.SetCursorPosition(16, 0);
+                string userInput = Console.ReadLine();
+                Console.Clear();
+                switch (userInput)
+                {
+                    case "1":
+                        Console.Write("Введите название книги: ");
+                        string bookName = Console.ReadLine();
+                        Console.Write("Введите год издания: ");
+                        int bookReleaseYear = Convert.ToInt32(Console.ReadLine());
+                        Console.Write("Введите имя автора: ");
+                        string bookAuthor = Console.ReadLine();
+                        library.AddBook(bookName, bookAuthor, bookReleaseYear);
+                        Console.WriteLine("Книга добавлена!");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "2":
+                        Console.Write("Введите название книги для удаления: ");
+                        library.RemoveBook(Console.ReadLine());
+                        Console.WriteLine("Книга удалена.");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "3":
+                        library.ShowLibrary();
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "4":
+                        Console.WriteLine("Введите запрос: \n1. Показать все книги по имени автора\n2. Показать все книги по году выпуска\n3. Показать все книги с определенным названием");
+                        Console.SetCursorPosition(16, 0);
+                        string inputUser = Console.ReadLine();
+                        Console.Clear();
+                        switch (inputUser)
+                        {
+                            case "1":
+                                Console.Write("Введите имя автора: ");
+                                library.SearchAuthor(Console.ReadLine());
+                                break;
+                            case "2":
+                                Console.Write("Введите год выпуска: ");
+                                library.SearchYear(Convert.ToInt32(Console.ReadLine()));
+                                break;
+                            case "3":
+                                Console.Write("Введите название: ");
+                                library.SearchName(Console.ReadLine());
+                                break;
+                            default:
+                                Console.WriteLine("Ошибка!");
+                                break;
+                        }
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "5":
+                        isWork = false;
+                        break;
+                    default:
+                        Console.WriteLine("Ошибка!");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                }
+            }
+        }
+    }
+    class Library
+    {
+        List<Book> library = new List<Book>();
+        public void AddBook(string bookName, string bookAuthor, int bookReleaseYear)
+        {
+            library.Add(new Book(bookName, bookAuthor, bookReleaseYear));
+        }
+        public void RemoveBook(string bookName)
+        {
+            for (int i = 0; i < library.Count; i++)
+            {
+                if (library[i].Name() == bookName)
+                {
+                    library.RemoveAt(i);
+                }
+            }
+        }
+        public void ShowLibrary()
+        {
+            foreach (Book book in library)
+            {
+                Console.WriteLine(book.ShowInfo());
+            }
+        }
+        public void SearchName(string bookName)
+        {
+            for (int i = 0; i < library.Count; i++)
+            {
+                if (library[i].Name() == bookName)
+                {
+                    Console.WriteLine(library[i].ShowInfo());
+                }
+            }
+        }
+        public void SearchAuthor(string bookAuthor)
+        {
+            for (int i = 0; i < library.Count; i++)
+            {
+                if (library[i].Author() == bookAuthor)
+                {
+                    Console.WriteLine(library[i].ShowInfo());
+                }
+            }
+        }
+        public void SearchYear(int bookYear)
+        {
+            for (int i = 0; i < library.Count; i++)
+            {
+                if (library[i].ReleaseYear() == bookYear)
+                {
+                    Console.WriteLine(library[i].ShowInfo());
+                }
+            }
+        }
+    }
+    class Book
+    {
+        private string _bookName;
+        private string _bookAuthor;
+        private int _bookReleaseYear;
+        public Book(string bookName, string bookAuthor, int bookReleaseYear)
+        {
+            _bookName = bookName;
+            _bookAuthor = bookAuthor;
+            _bookReleaseYear = bookReleaseYear;
+        }
+        public string Name()
+        {
+            return _bookName;
+        }
+        public string Author()
+        {
+            return _bookAuthor;
+        }
+        public int ReleaseYear()
+        {
+            return _bookReleaseYear;
+        }
+        public string ShowInfo()
+        {
+            return ($"{_bookName}, {_bookReleaseYear}. Автор: {_bookAuthor}.");
+        }
+    }
+}
