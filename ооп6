@@ -1,0 +1,149 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp29
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Seller seller1 = new Seller();
+            seller1.AddProduct(new Product("Сыр", 2000, 20));
+            seller1.AddProduct(new Product("Булка", 30, 100));
+            seller1.AddProduct(new Product("Мясо", 400, 50));
+            seller1.AddProduct(new Product("Хлеб", 20, 200));
+            seller1.AddProduct(new Product("Молоко", 80, 40));
+            Random rand = new Random();
+            Buyer buyer1 = new Buyer(rand.Next(50, 5000));
+            buyer1.Menu(seller1, buyer1);
+            //Console.WriteLine("Ваш счёт: " + buyer1.GetMoney());
+            //seller1.ShowSellerList(buyer1, seller1);
+        }
+    }
+    class Seller
+    {
+        private List<Product> _sellerList = new List<Product>();
+
+        public void ShowSellerList(Buyer buyer, Seller seller)
+        {
+            Console.WriteLine("\nЛавочник: Добро пожаловать! Я могу продать тебе следующие товары: ");
+            for (int i = 0; i < _sellerList.Count; i++)
+            {
+                Console.WriteLine((i + 1) + " " + _sellerList[i].NameProducte());
+            }
+            Console.Write("Введи номер товара, который хочешь купить: ");
+            int index = Convert.ToInt32(Console.ReadLine()) - 1;
+            _sellerList[index].ShowProduct();
+            Console.Write("Сколько штук будешь покупать?: ");
+            int amountProduct = Convert.ToInt32(Console.ReadLine());
+            buyer.BuyProduct(index, amountProduct, seller);
+        }
+        public void AddProduct(Product product1)
+        {
+            _sellerList.Add(product1);
+        }
+        public Product ShowProduct(int i)
+        {
+            return _sellerList[i];
+        }
+        public void SellProduct(int index, int amount)
+        {
+            _sellerList[index].GetAmount -= amount;
+        }
+    }
+    class Buyer
+    {
+        private List<Product> _buyerList = new List<Product>();
+        int _moneyCount;
+        public void Menu(Seller seller, Buyer buyer)
+        {
+            bool itWorking = true;
+            while (itWorking == true)
+            {
+                Console.WriteLine("Вы зашли в лавку! У вас " + _moneyCount + " монет. Выберите номер действия: \n\n1. Обратиться к лавочнику\n2. Посмотреть список своих товаров\n3. Покинуть лавку");
+                Console.SetCursorPosition(61, 0);
+                switch (Console.ReadLine())
+                {
+                    case "1":
+                        Console.Clear();
+                        Console.WriteLine("Ваш счёт: " + _moneyCount + " монет");
+                        seller.ShowSellerList(buyer, seller);
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "2":
+                        Console.Clear();
+                        for (int i = 0; i < _buyerList.Count; i++)
+                        {
+                            Console.WriteLine(_buyerList[i].NameProducte() + " " + _buyerList[i].GetAmount + " штук.");
+                        }
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case "3":
+                        itWorking = false;
+                        Console.Clear();
+                        break;
+                } 
+            }
+        }
+        public Buyer(int moneyCount)
+        {
+            _moneyCount = moneyCount;
+        }
+        public void BuyProduct(int index, int countProduct, Seller seller1)
+        {
+            Product product1 = seller1.ShowProduct(index);
+            if (countProduct * product1.GetPrice() <= _moneyCount && countProduct <= product1.GetAmount)
+            {
+                _buyerList.Add(new Product(product1.NameProducte(), product1.GetPrice(), product1.GetAmount));
+                _moneyCount -= countProduct * product1.GetPrice();
+                seller1.SellProduct(index, countProduct);
+                Console.WriteLine("\nТовар куплен.");
+            }
+            else
+            {
+                Console.WriteLine("\nВы не можете купить это!");
+            }
+        }
+        public int GetMoney() => _moneyCount;
+    }
+    class Product
+    {
+        string _productName;
+        int _price, _amount;
+        public Product(string productName, int price, int amount)
+        {
+            _productName = productName;
+            _price = price;
+            _amount = amount;
+        }
+        public string NameProducte()
+        {
+            return _productName;
+        }
+        public void ShowProduct()
+        {
+            Console.WriteLine($"{_productName} продаётся по цене: {_price} монет за штуку. В наличии {_amount} штук");
+        }
+        public int GetPrice()
+        {
+            return _price;
+        }
+        public int GetAmount
+        {
+            get
+            {
+                return _amount;
+            }
+            set
+            {
+                _amount = value;
+            }
+        }
+    }
+}
+
