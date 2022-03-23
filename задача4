@@ -1,0 +1,109 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp11
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //заклинание лечения - прибавляет 200хп, можно использовать не более 2 раз
+            //заклинание удара - наносит по врагу удар в 300хп, не более 5 раз
+            //заклинание зеркало - повторяет действие врага против него же (не более 1 раз)
+            //заклинание последнего удара - если осталось менее 100хп, активирует последний удар,
+            //                                               сила которого 400хп (не более 1 раз) и восстанавливает 300 здоровья
+
+            //заклинание тени - можно использовать 1 раз, позволяет скрыться от следующей атаки босса и нанести ответный урон в 300хп
+            int healthHero = 1000;
+            int healthBoss = 1500;
+            int healthSpell = 2;
+            int punchSpell = 5;
+            int mirrorSpell = 1;
+            int lastShotSpell = 1;
+            int shadowSpell = 1;
+            int bossDamage, countShadow = 0;
+            Random rand = new Random();
+            while (healthHero > 0 && healthBoss > 0)
+            {
+                Console.WriteLine("У вас осталось: ");
+                Console.WriteLine("Заклинание здоровья: " + healthSpell);
+                Console.WriteLine("Заклинание удара: " + punchSpell);
+                Console.WriteLine("Зеркальное заклинание: " + mirrorSpell);
+                Console.WriteLine("Заклинание последнего удара: " + lastShotSpell);
+                Console.WriteLine("Заклинание теней: " + shadowSpell);
+                Console.WriteLine("Здоровье героя: " + healthHero + "\nЗдоровье злодея: " + healthBoss);
+                bossDamage = rand.Next(100, 300);
+                if (healthHero - bossDamage > 0 && healthBoss > 0)
+                {
+                    if (countShadow != 1)
+                    {
+                    healthHero -= bossDamage;
+                    Console.Write("Босс нанёс удар в " + bossDamage + " урона. У вас осталось " + healthHero + " здоровья\nКакое заклинание Вы будете активировать?: ");
+                    string heroSpell = Console.ReadLine();
+                    Console.Clear();
+                    if ((heroSpell == "Заклинание здоровья" || heroSpell == "заклинание здоровья") && healthSpell > 0)
+                    {
+                        healthHero += 200;
+                        Console.WriteLine("Вы употребили заклинание здоровья! Ваши силы восстановлены\n");
+                        healthSpell--;
+                    }
+                    else if ((heroSpell == "Заклинание удара" || heroSpell == "заклинание удара") && punchSpell > 0)
+                    {
+                        healthBoss -= 300;
+                        Console.WriteLine("Вы применили заклинание удара! Босс сокрушается!\n");
+                        punchSpell--;
+                    }
+                    else if ((heroSpell == "Зеркальное заклинание" || heroSpell == "зеркальное заклинание") && mirrorSpell > 0)
+                    {
+                        healthBoss -= bossDamage;
+                        Console.WriteLine("Вы открыли зеркальное заклинание! Босс получил урон, равный своему удару\n");
+                        mirrorSpell--;
+                    }
+                    else if ((heroSpell == "Заклинание последнего удара" || heroSpell == "заклинание последнего удара") && lastShotSpell > 0 && healthHero <= 100)
+                    {
+                        healthBoss -= 400;
+                        healthHero += 300;
+                        Console.WriteLine("Вы использовали заклинание последнего удара! Босс теряет силы!\n");
+                        lastShotSpell--;
+
+                    }
+                    else if ((heroSpell == "Заклинание теней" || heroSpell == "заклинание теней") && shadowSpell > 0)
+                    {
+                        countShadow++;
+                        shadowSpell--;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Увы, такое заклинание невозможно использовать!");
+                    }
+                    }
+                
+                
+                    else if (countShadow == 1)
+                    {
+                    Console.Clear();
+                    healthBoss -= 300;
+                    Console.WriteLine("Вы скрыты теневой завесой, босс не может атаковать Вас\nТеневые чары отнимают у босса жизнь, у него осталось " + healthBoss + " здоровья\n");
+                    countShadow--;
+                    }
+                }
+                else if (healthHero - bossDamage < 0)
+                {
+                    Console.WriteLine("Босс нанёс по Вам последний удар и Вы проиграли!\n");
+                    break;
+                }
+                
+            }
+            if (healthBoss < 0)
+            {
+                Console.WriteLine("Вы одержали победу!\n");
+            }
+
+        }
+
+    }
+}
+
