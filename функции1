@@ -1,0 +1,116 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp15
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] usersFullName = new string[0];
+            string[] usersProfession = new string[0];
+            Console.Write("Выберите номер:\n\n1. Добавить досье\n2. Вывести все досье\n3. Удалить досье\n4. Поиск по фамилии\n5. Выход\n\n");
+            int userInput = Convert.ToInt32(Console.ReadLine());
+            Console.Clear();
+            while (userInput != 5)
+            {
+                switch (userInput)
+                {
+                    case 1:
+                        FunctionInput(ref usersFullName, ref usersProfession);
+                        break;
+                    case 2:
+                        FunctionOutput(usersFullName, usersProfession);
+                        break;
+                    case 3:
+                        FunctionDelete(ref usersFullName, ref usersProfession);
+                        break;
+                    case 4:
+                        FunctionSearch(usersFullName, usersProfession);
+                        break;
+                    default:
+                        Console.Write("Некорректный запрос, попробуйте ещё раз.\n\n");
+                        break;
+                }
+                Console.Write("Выберите номер:\n\n1. Добавить досье\n2. Вывести все досье\n3. Удалить досье\n4. Поиск по фамилии\n5. Выход\n\n");
+                userInput = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+            }
+
+        }
+        static void FunctionInput(ref string[] usersFullName, ref string[] usersProfession)
+        {
+            string[] newArrayProfession = new string[usersProfession.Length + 1];
+            string[] newArrayFullName = new string[usersFullName.Length + 1];
+            for (int i = 0; i < usersFullName.Length; i++)
+            {
+                newArrayFullName[i] = usersFullName[i];
+                newArrayProfession[i] = usersProfession[i];
+            }
+            Console.Write("Введите ФИО: ");
+            newArrayFullName[newArrayFullName.Length - 1] = Console.ReadLine();
+            Console.Write("Введите должность: ");
+            newArrayProfession[newArrayProfession.Length - 1] = Console.ReadLine();
+            usersFullName = newArrayFullName;
+            usersProfession = newArrayProfession;
+            Console.Clear();
+        }
+
+        static void FunctionOutput(string[] usersFullName, string[] usersProfession)
+        {
+            for (int i = 0; i < usersFullName.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}: {usersFullName[i]} - {usersProfession[i]}");
+            }
+            Console.ReadKey();
+            Console.Clear();
+        }
+        static void FunctionDelete(ref string[] usersFullName, ref string[] usersProfession)
+        {
+            Console.Write("Введите номер досье, которое Вы хотите удалить: ");
+            int userNumber = Convert.ToInt32(Console.ReadLine());
+            if (userNumber >= 1 && userNumber <= usersFullName.Length)
+            {
+                for (int i = userNumber; i < usersProfession.Length; i++)
+                {
+                    usersFullName[i-1] = usersFullName[i];
+                    usersProfession[i-1] = usersProfession[i];
+                }
+                string[] newArrayProfession = new string[usersProfession.Length - 1];
+                string[] newArrayFullName = new string[usersFullName.Length - 1];
+                for (int i = 0; i < usersProfession.Length - 1; i++)
+                {
+                    newArrayFullName[i] = usersFullName[i];
+                    newArrayProfession[i] = usersProfession[i];
+                }
+                usersFullName = newArrayFullName;
+                usersProfession = newArrayProfession;
+                Console.Write("Удалено.");
+                Console.ReadKey();
+                Console.Clear();
+            }
+            else
+            {
+                Console.Write("Ошибка!");
+            }
+        }
+
+        static void FunctionSearch(string[] usersFullName, string[] usersProfession)
+        {
+            Console.Write("Введите фамилию: ");
+            string surname = Console.ReadLine();
+            for (int i = 0; i < usersFullName.Length; i++)
+            {
+                if (usersFullName[i].Split()[0] == surname)
+                {
+                    Console.WriteLine(i+1 + " " + usersFullName[i] + " - " + usersProfession);
+                }
+            }
+            Console.ReadKey();
+            Console.Clear();
+        }
+    }
+}
