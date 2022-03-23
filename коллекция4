@@ -1,0 +1,50 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp27
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string> personnelAccounting = new List<string>();
+            int userInput = 0;
+            while (userInput != 4)
+            {
+                Console.WriteLine("Выберите функцию: \n1. Добавить досье\n2. Вывести все досье\n3. Удалить досье\n4. Выход");
+                Console.SetCursorPosition(18, 0);
+                userInput = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                switch (userInput)
+                {
+                    case 1:
+                        Console.WriteLine("Введите данные для досье: ");
+                        personnelAccounting.Add(Console.ReadLine());
+                        Console.Clear();
+                        break;
+                    case 2:
+                        Console.WriteLine("Кадровый учёт: ");
+                        for (int i = 0; i < personnelAccounting.Count; i++)
+                        {
+                            Console.WriteLine(personnelAccounting[i]);
+                        }
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case 3:
+                        Console.WriteLine("Введите данные досье, которое нужно удалить");
+                        personnelAccounting.Remove(Console.ReadLine());
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    case 4:
+                        break;
+                }
+            }
+        }
+    }
+}
+
