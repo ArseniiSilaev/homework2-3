@@ -1,0 +1,235 @@
+•	using System;
+using System.Collections.Generic;
+namespace Senya
+{
+class Program
+{
+static void Main(string[] args)
+{
+Fighter fighter1 = new Barbarian();
+Console.WriteLine(fighter1.GetType().ToString());
+
+Fight();
+}
+
+private static void Fight()
+{
+List<string> figters = new List<string> { "Варвар", "Рыцарь", "Гигант", "Маг", "Охотник" };
+Fighter fighter1;
+Fighter fighter2;
+Console.WriteLine("Выберите первого бойца");
+fighter1 = Choise(figters);
+Console.WriteLine("Выберите второго бойца");
+fighter2 = Choise(figters);
+Console.WriteLine("Началась битва!\n");
+while (fighter1.isAlive() && fighter2.isAlive())
+{
+fighter1.AplyDamege(fighter2);
+fighter2.AplyDamege(fighter1);
+}
+if (fighter1.GetHealth() <= 0)
+{
+Console.WriteLine(fighter2 + " победил!");
+}
+else
+{
+Console.WriteLine(fighter1 + " победил!");
+}
+}
+
+private static Fighter Choise(List<string> figters)
+{
+for (int i = 0; i < figters.Count; i++)
+{
+Console.WriteLine(i + 1 + " " + figters[i]);
+}
+
+switch (Console.ReadLine())
+{
+case "1": return new Barbarian();
+case "2": return new Knight();
+case "3": return new Giant();
+case "4": return new Wizard();
+case "5": return new Hunter();
+default: Console.Write("Неверный номер \n"); Choise(figters); break;
+}
+return null;
+}
+}
+abstract class Fighter
+{
+internal int Health;
+internal int Damage;
+internal int Armor;
+public Fighter()
+{
+}
+public bool isAlive()
+{
+if (Health > 0) return true;
+return false;
+}
+public virtual void AplyDamege(Fighter enemy)
+{
+enemy.Health -= Damage * (1 - enemy.Armor / 100);
+}
+public int GetHealth()
+{
+return (Health);
+}
+public virtual void SuperAbility(Fighter enemy)
+{
+
+}
+}
+class Barbarian : Fighter
+{
+public Barbarian()
+{
+Health = 100;
+Damage = 20;
+Armor = 10;
+}
+public override string ToString()
+{
+return "Варвар";
+}
+public override void AplyDamege(Fighter enemy)
+{
+var rand = new Random();
+if (rand.Next(0, 3) == 1)
+{
+SuperAbility(enemy);
+}
+else
+{
+base.AplyDamege(enemy);
+Console.WriteLine("Варвар сделал простой удар");
+}
+}
+public override void SuperAbility(Fighter enemy)
+{
+enemy.Health -= 40 * (1 - enemy.Armor / 100);
+Console.WriteLine("Варвар нанёс супер удар");
+}
+}
+class Knight : Fighter
+{
+bool _superChance = true;
+public Knight()
+{
+Health = 80;
+Damage = 10;
+Armor = 50;
+}
+public override string ToString()
+{
+return "Рыцарь";
+}
+public override void AplyDamege(Fighter enemy)
+{
+Console.WriteLine("Рыцарь сделал простой удар");
+base.AplyDamege(enemy);
+if (Health < 20 && _superChance)
+{
+SuperAbility(enemy);
+_superChance = false;
+}
+}
+public override void SuperAbility(Fighter enemy)
+{
+Armor = 80;
+Console.WriteLine("Рыцарь усилил броню");
+}
+}
+class Giant : Fighter
+{
+int _kickCount = 0;
+public Giant()
+{
+Health = 300;
+Damage = 10;
+Armor = 0;
+}
+public override string ToString()
+{
+return "Гигант";
+}
+public override void AplyDamege(Fighter enemy)
+{
+_kickCount++;
+if (_kickCount % 3 == 0)
+{
+SuperAbility(enemy);
+}
+else
+{
+base.AplyDamege(enemy);
+Console.WriteLine("Гигант нанёс простой удар");
+}
+}
+public override void SuperAbility(Fighter enemy)
+{
+Console.WriteLine("Гигант нанёс двойной удар");
+}
+}
+class Wizard : Fighter
+{
+public Wizard()
+{
+Health = 50;
+Damage = 40;
+Armor = 5;
+}
+public override string ToString()
+{
+return "Маг";
+}
+public override void AplyDamege(Fighter enemy)
+{
+base.AplyDamege(enemy);
+Console.WriteLine("Маг запустил фаербол по противнику");
+SuperAbility(enemy);
+}
+public override void SuperAbility(Fighter enemy)
+{
+Health += Health / 10;
+Console.WriteLine("Маг увеличил своё здоровье на 10%");
+}
+}
+class Hunter : Fighter
+{
+int _grenade = 2;
+public Hunter()
+{
+Health = 70;
+Damage = 15;
+Armor = 15;
+}
+public override string ToString()
+{
+return "Охотник";
+}
+public override void AplyDamege(Fighter enemy)
+{
+var rand =
+•	new Random();
+if (rand.Next(0, 3) == 1)
+{
+SuperAbility(enemy);
+}
+else
+{
+base.AplyDamege(enemy);
+Console.WriteLine("Охотник выстрелил");
+}
+}
+public override void SuperAbility(Fighter enemy)
+{
+enemy.Health -= 20 * (1 - enemy.Armor / 100);
+Console.WriteLine("Охотник кинул гранату!");
+_grenade--;
+}
+}
+}
+
