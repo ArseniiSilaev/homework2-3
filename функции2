@@ -1,0 +1,66 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp18
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.Write("Введите показатели (от 0 до 10): ");
+            int userBar = Convert.ToInt32(Console.ReadLine());
+            FunctionBar(userBar);
+        }
+
+        static void FunctionBar(int userInput)
+        {
+            ConsoleColor defaultColor= Console.BackgroundColor;
+            Console.Write("Введите номер цвета:\n1. Красный\n2. Синий\n3. Зеленый\n4. Розовый\n5. Желтый\n\n");
+            Console.SetCursorPosition(21, 1);
+            int userColor = Convert.ToInt32(Console.ReadLine());
+            Console.Clear();
+            if (userInput >= 0 && userInput <= 10 && userColor <= 5 && userColor >= 0)
+            {
+                Console.Write("[");
+                switch (userColor)
+                {
+                    case 1:
+                        Console.BackgroundColor = ConsoleColor.Red;
+                        break;
+                    case 2:
+                        Console.BackgroundColor = ConsoleColor.Blue;
+                        break;
+                    case 3:
+                        Console.BackgroundColor = ConsoleColor.Green;
+                        break;
+                    case 4:
+                        Console.BackgroundColor = ConsoleColor.Magenta;
+                        break;
+                    case 5:
+                        Console.BackgroundColor = ConsoleColor.Yellow;
+                        break;
+                    default:
+                        break;
+                }
+                for (int i = 0; i < userInput; i++)
+                {
+                    Console.Write(' ');
+                }
+                Console.BackgroundColor = defaultColor;
+                for (int i = userInput; i < 10; i++)
+                {
+                    Console.Write('_');
+                }
+                Console.Write("]\n\n");
+            }
+            else
+            {
+                Console.Write("Введены некорректные данные\n\n");
+            }
+        }
+    }
+}
+
