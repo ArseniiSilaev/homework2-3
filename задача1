@@ -1,0 +1,23 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp8
+{
+internal class Program
+{
+static void Main(string[] args)
+{
+int count = 7;
+while (count <= 98)
+{
+Console.WriteLine(count);
+count += 7;
+}
+//уайл здесь лучше фора потому, что будь последнее число не 98, а, скажем, 21728,
+// то посчитать кол-во шагов для фора было бы куда сложнее
+}
+}
+}
