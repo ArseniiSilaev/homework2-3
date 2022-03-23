@@ -1,0 +1,150 @@
+using System;
+using System.Collections.Generic;
+
+namespace ConsoleApp39
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Random rand = new Random();
+
+            List<Aviary> aviaries = new List<Aviary> { new SheepsAviary(rand),
+new CowsAviary(rand), new PigsAviary(rand),
+new ChickensAviary(rand), new GeeseAviary(rand) };
+
+            Menu(aviaries);
+        }
+
+        public static void Menu(List<Aviary> aviaries)
+        {
+            Console.WriteLine("К какому вольеру подойти?");
+            for (int i = 0; i < aviaries.Count; i++)
+            {
+                Console.WriteLine(i + 1 + ". " + aviaries[i].ShowInfo());
+            }
+            Console.WriteLine("0. Выход");
+            string choise = Console.ReadLine();
+            if (choise != "0")
+            {
+                aviaries[Convert.ToInt32(choise) - 1].ShowAnimals();
+
+                Menu(aviaries);
+            }
+        }
+    }
+    class Aviary
+    {
+        protected List<Animal> _aviary = new List<Animal>();
+        public Aviary(Random rand)
+        {
+
+        }
+        public virtual void ShowAnimals()
+        {
+            foreach (Animal animal in _aviary)
+            {
+                animal.ShowInfo();
+            }
+        }
+        public virtual string ShowInfo()
+        {
+            return "Nichego";
+        }
+    }
+    class Animal
+    {
+        private string _animalSound, _animalName;
+        private int _animalGender;
+        public Animal(string animalSound, string animalName, int animalGender)
+        {
+            _animalGender = animalGender;
+            _animalSound = animalSound;
+            _animalName = animalName;
+        }
+        public void ShowInfo()
+        {
+            string gender;
+            if (_animalGender == 1)
+            {
+                gender = "Мальчик";
+            }
+            else
+            {
+                gender = "Девочка";
+            }
+
+            Console.WriteLine(_animalName + " " + gender + " " + _animalSound);
+        }
+    }
+    class SheepsAviary : Aviary
+    {
+        public SheepsAviary(Random rand) : base(rand)
+        {
+            for (int i = 0; i < rand.Next(1, 10); i++)
+            {
+                _aviary.Add(new Animal("Беееее", "Овечка", rand.Next(0, 1)));
+            }
+        }
+        public override string ShowInfo()
+        {
+            return "Овцы!";
+        }
+    }
+    class CowsAviary : Aviary
+    {
+        public CowsAviary(Random rand) : base(rand)
+        {
+            for (int i = 0; i < rand.Next(1, 10); i++)
+            {
+                _aviary.Add(new Animal("Мууу", "Корова", rand.Next(0, 1)));
+            }
+        }
+        public override string ShowInfo()
+        {
+            return "Коровы!";
+        }
+    }
+    class PigsAviary : Aviary
+    {
+        public PigsAviary(Random rand) : base(rand)
+        {
+            for (int i = 0; i < rand.Next(1, 10); i++)
+            {
+                _aviary.Add(new Animal("Хрю-Хрю!", "Свинья", rand.Next(0, 1)));
+            }
+        }
+        public override string ShowInfo()
+        {
+            return "Свиньи!";
+        }
+    }
+    class ChickensAviary : Aviary
+    {
+        public ChickensAviary(Random rand) : base(rand)
+        {
+            for (int i = 0; i < rand.Next(1, 10); i++)
+            {
+                _aviary.Add(new Animal("Ко-ко-ко", "Курица", rand.Next(0, 1)));
+            }
+        }
+        public override string ShowInfo()
+        {
+            return "Курицы!";
+        }
+    }
+    class GeeseAviary : Aviary
+    {
+        public GeeseAviary(Random rand) : base(rand)
+        {
+            for (int i = 0; i < rand.Next(1, 10); i++)
+            {
+                _aviary.Add(new Animal("Га-га-га", "Гусь", rand.Next(0, 1)));
+            }
+        }
+        public override string ShowInfo()
+        {
+            return "Гуси!";
+        }
+    }
+}
