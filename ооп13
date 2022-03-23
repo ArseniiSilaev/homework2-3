@@ -1,0 +1,98 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp45
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Random random = new Random();
+            CarService carService = new CarService(random);
+            Menu(random, carService);
+        }
+        public static void Menu(Random rand, CarService carService)
+        {
+            while (true)
+            {
+                Console.WriteLine($"В кассе {carService.MoneyCount} рублей.");
+                carService.NewClient(rand);
+            }
+        }
+    }
+    enum DetailNumber
+    {
+        Колесо,
+        Амортизатор,
+        Двигатель,
+        Коробка_передач,
+        Тормоза,
+        Стартер,
+        Свечи_зажигания
+    }
+
+    class CarService
+    {
+        private int _moneyCount = 0;
+        Detail[] DetailsWarehouse = new Detail[6];
+        public CarService(Random rand)
+        {
+            for (int i = 0; i < DetailsWarehouse.Length; i++)
+            {
+                DetailsWarehouse[i] = new Detail(rand, i);
+            }
+        }
+        public int MoneyCount
+        {
+            get { return _moneyCount; }
+            private set { _moneyCount = value; }
+        }
+        public string GetDetaileName(int i)
+        {
+            return DetailsWarehouse[i].GetName();
+        }
+        public void NewClient(Random rand)
+        {
+            int clientDetail = rand.Next(0, 6);
+            Console.WriteLine($"У вас новый клиент, нужно починить {GetDetaileName(clientDetail)}");
+            if (DetailsWarehouse[clientDetail].GetCount() > 0)
+            {
+                DetailsWarehouse[clientDetail].SellDetail(); 
+                _moneyCount += DetailsWarehouse[clientDetail].Revenue();
+                Console.WriteLine("Клиент обслужен. Выручка - " + DetailsWarehouse[clientDetail].Revenue() + " рублей.");
+                Console.ReadKey();
+                Console.Clear();
+            }
+            else
+            {
+                _moneyCount -= 1000;
+                Console.WriteLine("Вы оштрафованы. Нет нужной детали.");
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+    }
+    class Detail
+    {
+        private int _detailPrice;
+        private int _detailCount;
+        private int _priceForWork;
+        private string _detailName;
+        string[] DetailsName = new string[] {"Колесо", "Амортизатор","Двигатель","Коробка_передач","Тормоза","Стартер","Свечи_зажигания"};
+        public Detail(Random rand, int detailName)
+        {
+            _detailCount = rand.Next(10, 100);
+            _detailPrice = rand.Next(500, 10000);
+            _priceForWork = rand.Next(500, 5000);
+            _detailName = DetailsName[detailName];
+        }
+        public string GetName() => _detailName;
+        public int GetCount() => _detailCount;
+        public int SellDetail() => _detailCount--;
+        public int Revenue() => (_detailPrice + _priceForWork);
+    }
+}
+
