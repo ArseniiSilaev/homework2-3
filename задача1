@@ -6,18 +6,19 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp8
 {
-internal class Program
-{
-static void Main(string[] args)
-{
-int count = 7;
-while (count <= 98)
-{
-Console.WriteLine(count);
-count += 7;
-}
-//уайл здесь лучше фора потому, что будь последнее число не 98, а, скажем, 21728,
-// то посчитать кол-во шагов для фора было бы куда сложнее
-}
-}
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int currentNumber = 5;
+            int maxNumber = 96;
+            for (int i = 0; i < maxNumber; i+=7)
+            {
+                Console.WriteLine(currentNumber);
+                currentNumber += 7;
+            }
+            //цикл фор оптимален, потому что знаем шаг прогрессии и тут наиболее рационален переборный алгоритм
+            // 
+        }
+    }
 }
