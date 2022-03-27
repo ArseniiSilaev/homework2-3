@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp8
 {
+
     internal class Program
     {
+    
         static void Main(string[] args)
         {
             Random random = new Random();
-            int randomNumber = random.Next(0, 100);
+            int minValue = 0;
+            int maxValue = 100;
+            int randomNumber = random.Next(minValue, maxValue);
             int sum = 0;
+            
             for (int i = 0; i <= randomNumber; i++)
             {
                 if (i % 3 == 0 || i % 5 == 0)
@@ -20,7 +25,10 @@ namespace ConsoleApp8
                     sum += i;
                 }
             }
+            
             Console.WriteLine(sum);
         }
+        
     }
+    
 }
